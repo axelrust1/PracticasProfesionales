@@ -1,13 +1,11 @@
 package com.pps.pps.repositories;
 
-import com.pps.pps.model.Cliente;
-
-import java.util.Optional;
+import com.pps.pps.model.Movimiento;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ICliente extends JpaRepository<Cliente, Long> {
-    Cliente findByDni(long dni); 
+public interface IMovimiento extends JpaRepository<Movimiento, Long> {
+    
 }

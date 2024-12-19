@@ -1,46 +1,49 @@
 package com.pps.pps.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pps.pps.controller.ClienteDto;
+import com.pps.pps.model.Cliente;
+import com.pps.pps.model.Cuenta;
+import com.pps.pps.model.exception.ClienteAlreadyExistsException;
+import com.pps.pps.model.exception.ClienteNoExisteException;
+import com.pps.pps.model.exception.CuentaAlreadyExistsException;
 import com.pps.pps.repositories.ICliente;
-import com.pps.pps.models.clienteModel;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class clienteService {
-    
-    @Autowired
-    ICliente clienteRepository;
+public class ClienteService {
 
-    public ArrayList<clienteModel> getClientes(){
-        return (ArrayList<clienteModel>) clienteRepository.findAll();
+    private final ICliente clienteRepository;
+
+    public ClienteService(ICliente clienteRepository) {
+        this.clienteRepository = clienteRepository;
     }
 
-    public clienteModel guardarCliente (clienteModel cliente){
+
+    @Transactional
+    public Cliente darDeAltaCliente(ClienteDto clienteDto) throws ClienteAlreadyExistsException {
+        Cliente cliente = new Cliente(clienteDto);
+
+        // Verificar si el cliente ya existe
+        if (clienteRepository.findByDni(cliente.getDni())!=null) {
+            throw new ClienteAlreadyExistsException("Ya existe un cliente con DNI " + cliente.getDni());
+        }
+
+        if (cliente.getEdad() < 18) {
+            throw new IllegalArgumentException("El cliente debe ser mayor a 18 años");
+        }
+
+        // Guardar cliente en la base de datos
         return clienteRepository.save(cliente);
     }
 
-    public Optional<clienteModel>buscarPorDni(Long dni){
-        return clienteRepository.findById(dni);
-    }
+    @Transactional(readOnly = true)
+    public Cliente buscarClientePorDni(long dni) throws ClienteNoExisteException {
+        // Buscar cliente por ID en la base de datos
+        Cliente cliente = clienteRepository.findByDni(dni);
 
-    public clienteModel editarPorDni(clienteModel cliente, Long dni) {
-        clienteModel clienteAux = clienteRepository.findById(dni)
-                                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        clienteAux.setNombre(cliente.getNombre());
-        clienteAux.setApellido(cliente.getApellido());
-        clienteAux.setFechaNacimiento(cliente.getFechaNacimiento());
-        return clienteRepository.save(clienteAux); // Guarda los cambios
-    }
-
-    public Boolean eliminarCliente (Long dni){
-        try {
-            clienteRepository.deleteById(dni);
-            return true;
-        } catch (Exception e){
-            return false;
-        }
+        return cliente;
     }
 }

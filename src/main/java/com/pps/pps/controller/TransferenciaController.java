@@ -18,7 +18,6 @@ import com.pps.pps.model.exception.MonedaVaciaExcepcion;
 import com.pps.pps.model.exception.MonedasDistintasTransferenciaExcepcion;
 import com.pps.pps.model.exception.MontoMenorIgualQueCero;
 import com.pps.pps.model.exception.SaldoInsuficienteExcepcion;
-import com.pps.pps.model.exception.TranferenciaBanelcoFalladaExcepcion;
 import com.pps.pps.model.exception.TipoDeMonedaIncorrectoExcepcion;
 import com.pps.pps.service.DepositoRetiroService;
 import com.pps.pps.service.TransferenciaService;
@@ -46,7 +45,7 @@ public class TransferenciaController {
             transferenciaValidator.validate(transferenciaDto);
             transferenciaService.realizarTransferencia(transferenciaDto);
             return new TransferMensaje("EXITOSA", "Transferencia exitosa");
-     } catch (TipoDeMonedaIncorrectoExcepcion | CuentaOrigenNoExisteExcepcion | MonedasDistintasTransferenciaExcepcion | MonedaErroneaTransferenciaExcepcion | SaldoInsuficienteExcepcion | TranferenciaBanelcoFalladaExcepcion | CuentaDestinoNoExisteExcepcion | CuentasOrigenDestinoNulas | MontoMenorIgualQueCero | CuentaOrigenyDestinoIguales | MonedaVaciaExcepcion excepcion) { //multicatch
+     } catch (TipoDeMonedaIncorrectoExcepcion | CuentaOrigenNoExisteExcepcion | MonedasDistintasTransferenciaExcepcion | MonedaErroneaTransferenciaExcepcion | SaldoInsuficienteExcepcion | CuentaDestinoNoExisteExcepcion | CuentasOrigenDestinoNulas | MontoMenorIgualQueCero | CuentaOrigenyDestinoIguales | MonedaVaciaExcepcion excepcion) { //multicatch
             return new TransferMensaje("FALLIDA", excepcion.getMessage());
         }
     }

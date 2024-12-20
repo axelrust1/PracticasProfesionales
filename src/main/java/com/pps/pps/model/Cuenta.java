@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Random;
@@ -36,10 +37,10 @@ public class Cuenta {
     @JoinColumn(name = "dniCliente")
     private Cliente cliente;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Movimiento> movimientos = new LinkedHashSet<>();
 
-    // Constructores
     public Cuenta() {
         long aux = new Random().nextLong(); 
         if (aux<0){

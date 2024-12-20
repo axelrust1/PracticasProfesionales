@@ -26,7 +26,6 @@ public class ClienteService {
     public Cliente darDeAltaCliente(ClienteDto clienteDto) throws ClienteAlreadyExistsException {
         Cliente cliente = new Cliente(clienteDto);
 
-        // Verificar si el cliente ya existe
         if (clienteRepository.findByDni(cliente.getDni())!=null) {
             throw new ClienteAlreadyExistsException("Ya existe un cliente con DNI " + cliente.getDni());
         }
@@ -35,13 +34,13 @@ public class ClienteService {
             throw new IllegalArgumentException("El cliente debe ser mayor a 18 años");
         }
 
-        // Guardar cliente en la base de datos
+        //guardar cliente en la base de datos
         return clienteRepository.save(cliente);
     }
 
     @Transactional(readOnly = true)
     public Cliente buscarClientePorDni(long dni) throws ClienteNoExisteException {
-        // Buscar cliente por ID en la base de datos
+        //buscar cliente x id
         Cliente cliente = clienteRepository.findByDni(dni);
 
         return cliente;

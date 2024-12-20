@@ -37,28 +37,23 @@ public class DepositoRetiroService {
             CuentaOrigenNoExisteExcepcion, 
             MonedaErroneaTransferenciaExcepcion {
         
-        // Validaciones básicas
         validarDatosOperacion(depositoRetiroDto);
         
-        // Obtener cuenta
         Cuenta cuenta = cuentaRepository.findById(depositoRetiroDto.getCuenta())
                 .orElseThrow(() -> new CuentaOrigenNoExisteExcepcion("La cuenta en la que quiere depositar no existe."));
         
-        // Validar moneda
         validarMoneda(depositoRetiroDto, cuenta);
         
-        // Crear depósito
         DepositoRetiro deposito = new DepositoRetiro(depositoRetiroDto);
         
-        // Actualizar saldo
         cuenta.setBalance(cuenta.getBalance() + deposito.getMonto());
         cuentaRepository.save(cuenta);
         
-        // Registrar movimiento
         MovimientoDto movimientoAux = new MovimientoDto(LocalDate.now(), "DEPOSITO", "Deposito Entrante", deposito.getMonto());
         Movimiento movimiento = new Movimiento(movimientoAux);
         movimientoRepository.save(movimiento);
-        
+        movimiento.setCuenta(cuenta);
+        cuenta.addMovimiento(movimiento);
         return deposito;
     }
 
@@ -71,29 +66,24 @@ public class DepositoRetiroService {
             CuentaOrigenNoExisteExcepcion, 
             MonedaErroneaTransferenciaExcepcion, CuentaNulaExcepcion {
         
-        // Validaciones básicas
         validator.validate(depositoRetiroDto);
         
-        // Obtener cuenta
         Cuenta cuenta = cuentaRepository.findById(depositoRetiroDto.getCuenta())
                 .orElseThrow(() -> new CuentaOrigenNoExisteExcepcion("La cuenta de la que quiere hacer el retiro no existe."));
         
-        // Validar moneda y saldo
         validarMoneda(depositoRetiroDto, cuenta);
         validarSaldo(depositoRetiroDto, cuenta);
         
-        // Crear retiro
         DepositoRetiro retiro = new DepositoRetiro(depositoRetiroDto);
         
-        // Actualizar saldo
         cuenta.setBalance(cuenta.getBalance() - retiro.getMonto());
         cuentaRepository.save(cuenta);
         
-        // Registrar movimiento
         MovimientoDto movimientoAux = new MovimientoDto(LocalDate.now(), "RETIRO", "Retiro de dinero", retiro.getMonto());
         Movimiento movimiento = new Movimiento(movimientoAux);
         movimientoRepository.save(movimiento);
-        
+        movimiento.setCuenta(cuenta);
+        cuenta.addMovimiento(movimiento);
         return retiro;
     }
     
@@ -121,7 +111,8 @@ public class DepositoRetiroService {
     }
     
     private void validarMoneda(DepositoRetiroDto operacion, Cuenta cuenta) throws MonedaErroneaTransferenciaExcepcion {
-        if (!operacion.getMoneda().equals(cuenta.getMoneda())) {
+        String tipoMoneda = String.valueOf(cuenta.getMoneda());
+        if (!operacion.getMoneda().equals(tipoMoneda)) {
             throw new MonedaErroneaTransferenciaExcepcion("Error en la moneda seleccionada para la operación");
         }
     }

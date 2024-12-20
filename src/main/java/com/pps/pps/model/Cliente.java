@@ -10,7 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "clientes")  // Especifica el nombre de la tabla en la base de datos
+@Table(name = "clientes")  // nombre de la tabla en la base de datos
 public class Cliente {
 
     @Id
@@ -56,11 +56,9 @@ public class Cliente {
         this.nombre = clienteDto.getNombre();
         this.apellido = clienteDto.getApellido();
         this.fechaNacimiento = clienteDto.getFechaNacimiento();
-        this.fechaAlta = LocalDate.now(); // Se asigna la fecha actual
+        this.fechaAlta = LocalDate.now(); //fecha actual
         this.tipoPersona = TipoPersona.fromString(clienteDto.getTipoPersona()); // Conversión del tipo de persona
     }
-
-    // Getters y setters
 
 
     public long getDni() {

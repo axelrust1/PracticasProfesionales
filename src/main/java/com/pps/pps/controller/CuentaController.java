@@ -42,7 +42,7 @@ public class CuentaController {
     }
 
     @GetMapping ("/dni/{dni}")
-    public Set<Cuenta> buscarCuentaPorDni(@PathVariable long dni) throws CuentaNoEncontradaExcepcion {
+    public Set<Cuenta> buscarCuentaPorDni(@PathVariable long dni) throws ClienteNoExisteException {
         return cuentaService.obtenerCuentasPorDni(dni);
     }
 

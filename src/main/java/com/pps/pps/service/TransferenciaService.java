@@ -37,11 +37,9 @@ public class TransferenciaService {
                    CuentaDestinoNoExisteExcepcion, MonedasDistintasTransferenciaExcepcion, 
                    MonedaErroneaTransferenciaExcepcion, SaldoInsuficienteExcepcion{
 
-        // Validaciones iniciales
         transValidator.validate(transferenciaDto);
         Transferencia trans = new Transferencia(transferenciaDto);
 
-        // Buscar cuentas en la base de datos
         Optional<Cuenta> cuentaOrigenOpt = cuentaRepository.findById(transferenciaDto.getCuentaOrigen());
         Optional<Cuenta> cuentaDestinoOpt = cuentaRepository.findById(transferenciaDto.getCuentaDestino());
 
@@ -55,7 +53,6 @@ public class TransferenciaService {
         Cuenta cuentaOrigen = cuentaOrigenOpt.get();
         Cuenta cuentaDestino = cuentaDestinoOpt.get();
 
-        // Validar moneda
         TipoMoneda tipoMoneda = TipoMoneda.valueOf(transferenciaDto.getMoneda());
         if (!tipoMoneda.equals(cuentaOrigen.getMoneda()) || !tipoMoneda.equals(cuentaDestino.getMoneda())) {
             throw new MonedasDistintasTransferenciaExcepcion("Las monedas de las cuentas son distintas.");
@@ -69,7 +66,6 @@ public class TransferenciaService {
         cuentaOrigen.setBalance(cuentaOrigen.getBalance() - transferenciaDto.getMonto());
         cuentaDestino.setBalance(cuentaDestino.getBalance() + transferenciaDto.getMonto());
 
-        // Registrar movimientos
         MovimientoDto movimientoDebitoDto = new MovimientoDto(LocalDate.now(), "DEBITO", "Transferencia Saliente", trans.getMonto());
         MovimientoDto movimientoCreditoDto = new MovimientoDto(LocalDate.now(), "CREDITO", "Transferencia Entrante", trans.getMonto());
 

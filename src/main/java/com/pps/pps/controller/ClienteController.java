@@ -6,7 +6,7 @@ import com.pps.pps.model.exception.ClienteAlreadyExistsException;
 import com.pps.pps.model.exception.ClienteNoExisteException;
 import com.pps.pps.model.exception.FormatoFechaIncorrectoException;
 import com.pps.pps.model.exception.TipoDePersonaIncorrectoExcepcion;
-import com.pps.pps.service.ClienteService;
+import com.pps.pps.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClienteController {
 
     @Autowired
-    private ClienteService clienteService;
+    private clienteService clienteService;
 
     @Autowired
     private ClienteValidator clienteValidator;

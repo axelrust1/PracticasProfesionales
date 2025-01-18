@@ -41,7 +41,6 @@ public class Cuenta {
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Movimiento> movimientos = new LinkedHashSet<>();
 
-    // Constructores
     public Cuenta() {
         int max = 9999999;
         int aux = new Random().nextInt(max); 

@@ -14,11 +14,11 @@ import jakarta.persistence.JoinColumn;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "movimientos")  // Especifica el nombre de la tabla en la base de datos
+@Table(name = "movimientos") 
 public class Movimiento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Generación automática del ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private long id;
 
     @Column(nullable = false)
@@ -39,7 +39,6 @@ public class Movimiento {
     private Cuenta cuenta;
 
     public Movimiento() {
-        // Constructor por defecto para JPA
     }
 
     public Movimiento(MovimientoDto movimientoDto) {
@@ -49,7 +48,6 @@ public class Movimiento {
         this.monto = movimientoDto.getMonto();
     }
 
-    // Getters y Setters
 
     public long getId() {
         return id;

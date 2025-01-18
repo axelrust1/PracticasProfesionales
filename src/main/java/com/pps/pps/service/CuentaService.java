@@ -31,28 +31,23 @@ public class CuentaService {
     public Cuenta darDeAltaCuenta(CuentaDto cuentaDto) throws ClienteNoExisteException, CuentaAlreadyExistsException, CuentaNoSoportadaException {
 
        
-        // Primero buscamos el cliente por DNI
         Cliente cliente = clienteRepository.findByDni(cuentaDto.getDniCliente());
         if (cliente == null) {
             throw new ClienteNoExisteException("El cliente con DNI " + cuentaDto.getDniCliente() + " no existe.");
         }
 
-        // Creamos la nueva cuenta
         Cuenta cuenta = new Cuenta(cuentaDto);
         cuenta.setCliente(cliente);
 
-        // Verificamos si ya existe una cuenta del mismo tipo
         if (cuentaRepository.findByclienteAndTipoCuentaAndMoneda(
                 cliente, cuenta.getTipoCuenta(), cuenta.getMoneda()) != null) {
             throw new CuentaAlreadyExistsException("El cliente ya tiene una cuenta de este tipo.");
         }
 
-        // Verificamos si el tipo de cuenta está soportado
         if (!tipoCuentaEstaSoportada(cuenta)) {
             throw new CuentaNoSoportadaException("El tipo de cuenta " + cuenta.getTipoCuenta() +
                     " con " + cuenta.getMoneda() + " no está soportada.");
         }
-        // Guardamos la cuenta
         return cuentaRepository.save(cuenta);
     }
 
@@ -68,7 +63,6 @@ public class CuentaService {
     }
 
     public Set<Cuenta> obtenerCuentasPorDni(Long dni)throws ClienteNoExisteException {
-        // Aquí llamamos al DAO para obtener las cuentas del cliente por su DNI
         Cliente cliente = clienteRepository.findByDni(dni);
         if (cliente == null) {
             throw new ClienteNoExisteException("El cliente con DNI " + dni + " no existe.");

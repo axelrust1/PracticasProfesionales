@@ -1,4 +1,5 @@
 package com.pps.pps.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pps.pps.controller.MovimientoDto;
 
 import jakarta.persistence.Entity;
@@ -32,8 +33,9 @@ public class Movimiento {
     @Column(nullable = false)
     private double monto;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "cuenta_id")
+    @JoinColumn(name = "numeroCuenta")
     private Cuenta cuenta;
 
     public Movimiento() {
@@ -87,5 +89,13 @@ public class Movimiento {
 
     public void setMonto(double monto) {
         this.monto = monto;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public Cuenta getCuenta() {
+        return cuenta;
     }
 }

@@ -27,8 +27,6 @@ public class CuentaService {
     @Autowired
     private ICliente clienteRepository;
 
-    @Autowired
-    private ClienteService clienteService;
 
     public Cuenta darDeAltaCuenta(CuentaDto cuentaDto) throws ClienteNoExisteException, CuentaAlreadyExistsException, CuentaNoSoportadaException {
 
@@ -69,9 +67,12 @@ public class CuentaService {
                 new CuentaNoEncontradaExcepcion("Cuenta no encontrada"));
     }
 
-    public Set<Cuenta> obtenerCuentasPorDni(Long dni) {
+    public Set<Cuenta> obtenerCuentasPorDni(Long dni)throws ClienteNoExisteException {
         // Aquí llamamos al DAO para obtener las cuentas del cliente por su DNI
         Cliente cliente = clienteRepository.findByDni(dni);
+        if (cliente == null) {
+            throw new ClienteNoExisteException("El cliente con DNI " + dni + " no existe.");
+        }
         Set<Cuenta> cuentas = cuentaRepository.findByCliente_Dni(cliente.getDni());
         
         return cuentas;

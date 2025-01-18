@@ -5,7 +5,7 @@ import com.pps.pps.model.TipoMoneda;
 public class DepositoRetiroDto {
     private long cuenta;
     double monto;
-    TipoMoneda moneda;
+    String moneda;
 
     public long getCuenta(){
         return cuenta;
@@ -22,11 +22,11 @@ public class DepositoRetiroDto {
         this.monto = monto;
     }
 
-    public TipoMoneda getMoneda() {
+    public String getMoneda() {
         return moneda;
     }
 
-    public void setMoneda(TipoMoneda moneda) {
+    public void setMoneda(String moneda) {
         this.moneda = moneda;
     }
     

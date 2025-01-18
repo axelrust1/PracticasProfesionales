@@ -42,12 +42,12 @@ public class CuentaController {
     }
 
     @GetMapping ("/dni/{dni}")
-    public Set<Cuenta> buscarCuentaPorDni(@PathVariable long dni) throws CuentaNoEncontradaExcepcion {
+    public Set<Cuenta> buscarCuentaPorDni(@PathVariable long dni) throws ClienteNoExisteException {
         return cuentaService.obtenerCuentasPorDni(dni);
     }
 
     @GetMapping ("/{numeroCuenta}/transacciones")
-    public MovimientoMensajeDto listaMovimientos(@PathVariable long numeroCuenta) throws CuentaNoEncontradaExcepcion{
+    public MovimientoMensajeDto listaMovimientos(@PathVariable int numeroCuenta) throws CuentaNoEncontradaExcepcion{
         MovimientoMensajeDto movimiento = new MovimientoMensajeDto();
         Cuenta cuenta = cuentaService.find(numeroCuenta);
         movimiento.setNumeroCuenta(cuenta.getNumeroCuenta());

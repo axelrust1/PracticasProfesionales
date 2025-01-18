@@ -4,13 +4,13 @@ import java.util.Set;
 import com.pps.pps.model.Movimiento;
 
 public class MovimientoMensajeDto {
-    private Long numeroCuenta;
+    private long numeroCuenta;
     private Set<Movimiento> transacciones;
 
-    public Long getNumeroCuenta() {
+    public long getNumeroCuenta() {
         return numeroCuenta;
     }
-    public void setNumeroCuenta(Long numeroCuenta) {
+    public void setNumeroCuenta(long numeroCuenta) {
         this.numeroCuenta = numeroCuenta;
     }
     public Set<Movimiento> getTransacciones() {

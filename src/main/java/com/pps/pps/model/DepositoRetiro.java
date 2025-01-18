@@ -6,7 +6,7 @@ public class DepositoRetiro {
 
     private long cuenta;
     private double monto;
-    private TipoMoneda tipoMoneda;
+    private String tipoMoneda;
 
     public DepositoRetiro(DepositoRetiroDto DepositoRetirodto){
         this.cuenta = DepositoRetirodto.getCuenta();
@@ -30,11 +30,11 @@ public class DepositoRetiro {
         this.monto = monto;
     }
 
-    public TipoMoneda getTipoMoneda() {
+    public String getTipoMoneda() {
         return tipoMoneda;
     }
 
-    public void setTipoMoneda(TipoMoneda tipoMoneda) {
+    public void setTipoMoneda(String tipoMoneda) {
         this.tipoMoneda = tipoMoneda;
     }
 

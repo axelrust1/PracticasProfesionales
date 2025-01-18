@@ -35,8 +35,7 @@ public class TransferenciaService {
             throws TipoDeMonedaIncorrectoExcepcion, MonedaVaciaExcepcion, CuentaOrigenyDestinoIguales, 
                    MontoMenorIgualQueCero, CuentasOrigenDestinoNulas, CuentaOrigenNoExisteExcepcion, 
                    CuentaDestinoNoExisteExcepcion, MonedasDistintasTransferenciaExcepcion, 
-                   MonedaErroneaTransferenciaExcepcion, SaldoInsuficienteExcepcion, 
-                   TranferenciaBanelcoFalladaExcepcion {
+                   MonedaErroneaTransferenciaExcepcion, SaldoInsuficienteExcepcion{
 
         // Validaciones iniciales
         transValidator.validate(transferenciaDto);
@@ -81,7 +80,8 @@ public class TransferenciaService {
 
         movimientoRepository.save(movimientoDebito);
         movimientoRepository.save(movimientoCredito);
-
+        movimientoDebito.setCuenta(cuentaOrigen);
+        movimientoCredito.setCuenta(cuentaDestino);
         cuentaRepository.save(cuentaOrigen);
         cuentaRepository.save(cuentaDestino);
 

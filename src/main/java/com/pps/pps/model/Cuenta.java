@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Random;
@@ -36,12 +37,14 @@ public class Cuenta {
     @JoinColumn(name = "dniCliente")
     private Cliente cliente;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Movimiento> movimientos = new LinkedHashSet<>();
 
     // Constructores
     public Cuenta() {
-        long aux = new Random().nextLong(); 
+        int max = 9999999;
+        int aux = new Random().nextInt(max); 
         if (aux<0){
             numeroCuenta = aux * -1;        //nos aseguramos de que el numero de cuenta random siempre sea positivo
         } else {
@@ -56,7 +59,8 @@ public class Cuenta {
         this.moneda = TipoMoneda.fromString(cuentaDto.getMoneda());
         this.fechaCreacion = LocalDate.now();
         this.balance = 50000;
-        long aux = new Random().nextLong();
+        int max = 9999999;
+        int aux = new Random().nextInt(max); 
         if (aux<0){
             this.numeroCuenta = aux * -1;        //nos aseguramos de que el numero de cuenta random siempre sea positivo
         } else {

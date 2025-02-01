@@ -45,4 +45,25 @@ public class clienteService {
 
         return cliente;
     }
+
+    @Transactional
+    public void eliminarClientePorDni(long dni) throws ClienteNoExisteException {
+        Cliente cliente = clienteRepository.findByDni(dni);
+        if (cliente == null) {
+            throw new ClienteNoExisteException("No se encontró un cliente con DNI " + dni);
+        }
+        clienteRepository.delete(cliente);
+    }
+
+    @Transactional
+    public Cliente actualizarCliente(long dni, ClienteDto clienteDto) throws ClienteNoExisteException {
+        Cliente clienteExistente = clienteRepository.findByDni(dni);
+        if (clienteExistente == null) {
+            throw new ClienteNoExisteException("No se encontró un cliente con DNI " + dni);
+        }
+        clienteExistente.setNombre(clienteDto.getNombre());
+        clienteExistente.setApellido(clienteDto.getApellido());
+
+        return clienteRepository.save(clienteExistente);
+    }
 }

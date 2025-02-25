@@ -23,8 +23,20 @@ Para ejecutar esta API es necesario tener instalado:
    git clone https://github.com/axelrust1/PracticasProfesionales
    ```
 2. Configurar la base de datos MySQL:
-   - Crear una base de datos llamada `banco`.
+   - Crear una base de datos llamada `banco_api`.
    - Configurar `application.properties` con los datos de conexión.
+3. Utilizar XAMPP para correr la aplicacion en un entorno LOCAL:
+   - Habilitar el modulo *Apache* y *MySQL*.
+4. Limpiar y compilar dependencias con el siguiente comando:
+   ```bash
+   mvn clean install
+   ```
+5. Ejecutar la API con el siguiente comando:
+   ```bash
+   mvn spring-boot:run
+   ```
+## IMPORTANTE
+La aplicacion esta configurada para escuchar en el puerto *3306*, si desea cambiar el puerto, solamente debe modificar el archivo `application.properties`.
 
 ## Rutas Disponibles
 ### **Clientes**

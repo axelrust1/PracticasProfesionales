@@ -36,7 +36,7 @@ Para ejecutar esta API es necesario tener instalado:
    mvn spring-boot:run
    ```
 ## IMPORTANTE
-La aplicacion esta configurada para escuchar en el puerto *3306*, si desea cambiar el puerto, solamente debe modificar el archivo `application.properties`.
+La aplicacion esta configurada para escuchar en el puerto *8080*, si desea cambiar el puerto, solamente debe modificar el archivo `application.properties`.
 
 ## Rutas Disponibles
 ### **Clientes**
